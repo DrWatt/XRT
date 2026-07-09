@@ -28,6 +28,15 @@
 #define ioremap_nocache         ioremap
 #endif
 
+//Patch for from_timer bug on Alma9 kernel headers
+
+#ifndef from_timer
+#define from_timer(var, timer, field) \
+        container_of(timer, typeof(*var), field)
+#endif
+
+
+
 /* Avoid the CU soft lockup warning when CU thread keep busy.
  * Small value leads to lower performance on APU.
  */

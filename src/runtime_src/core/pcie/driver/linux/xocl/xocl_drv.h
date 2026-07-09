@@ -91,6 +91,15 @@
 #if LINUX_VERSION_CODE >= KERNEL_VERSION(5, 6, 0)
 #define ioremap_nocache		ioremap
 
+//Patch for from_timer bug on Alma9 kernel headers
+
+#ifndef from_timer
+#define from_timer(var, timer, field) \
+        container_of(timer, typeof(*var), field)
+#endif
+
+
+
 /*
  * Legacy uppercase DRM logging helpers were dropped from newer kernels.
  * Keep the existing call sites working by mapping them to the generic
