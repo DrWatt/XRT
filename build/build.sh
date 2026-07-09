@@ -414,6 +414,9 @@ if [[ $opt == 1 ]]; then
   if [[ $driver == 1 ]]; then
     unset CC
     unset CXX
+    sed -Ei \
+       's|struct[[:space:]]+qdma_mbox[[:space:]]+\*mbox[[:space:]]*=[[:space:]]*from_timer\(mbox,[[:space:]]*t,[[:space:]]*timer\);|struct qdma_mbox *mbox = container_of(t, struct qdma_mbox, timer);|' \
+       "$BUILDDIR/../src/runtime_src/core/pcie/driver/linux/xocl/lib/libqdma/QDMA/linux-kernel/driver/libqdma/qdma_mbox.c"
     echo "make -C usr/src/xrt-2.26.0/driver/xocl"
     make -C usr/src/xrt-2.26.0/driver/xocl
     if [[ $CPU == "aarch64" ]]; then
